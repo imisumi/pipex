@@ -2,6 +2,8 @@
 !*/
 !*.*
 
+!Makefile
+
 .DS_Store
 
 objs/

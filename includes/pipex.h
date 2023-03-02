@@ -6,7 +6,7 @@
 /*   By: imisumi <imisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 21:15:55 by ichiro            #+#    #+#             */
-/*   Updated: 2023/03/01 16:57:26 by imisumi          ###   ########.fr       */
+/*   Updated: 2023/03/02 13:43:02 by imisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_pip
 	char	**paths;
 }	t_pip;
 
+void	free_double(char **array);
 char	**env_paths(char **envp, t_pip pip);
 void	run_cmd(char **paths, char **argv, char **envp, int cmd);
 void	exit_msg(char *msg, char *msg2, int x);

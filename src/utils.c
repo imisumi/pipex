@@ -6,7 +6,7 @@
 /*   By: imisumi <imisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 13:38:38 by imisumi           #+#    #+#             */
-/*   Updated: 2023/03/01 17:02:55 by imisumi          ###   ########.fr       */
+/*   Updated: 2023/03/02 13:52:36 by imisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,20 @@ void	free_double(char **array)
 	i = 0;
 	while (array[i])
 	{
-		free(array[i]);
+		if (array[i])
+			free(array[i]);
 		i++;
 	}
-	free(array);
+	if (array)
+		free(array);
+}
+
+void	free_child(char **paths, char **cmd_arg, char *cmd_path)
+{
+	free_double(paths);
+	free_double(cmd_arg);
+	if (cmd_path)
+		free(cmd_path);
 }
 
 char	*get_env(char **envp)
@@ -76,15 +86,24 @@ void	run_cmd(char **paths, char **argv, char **envp, int cmd)
 	int		i;
 
 	cmd_arg = ft_split(argv[cmd], ' ');
+	if (cmd_arg == NULL)
+		free(paths);
+	if (cmd_arg == NULL)
+		exit_msg("Malloc in ft_split has failed", NULL, 1);
 	i = 0;
 	while (paths[i])
 	{
 		cmd_path = ft_strjoin(paths[i], cmd_arg[0]);
+		if (cmd_path == NULL)
+		{
+			free_child(paths, cmd_arg, cmd_path);
+			exit_msg("Malloc in ft_strjoin has failed", NULL, 1);
+		}
 		if (access(cmd_path, F_OK) == 0)
 			execve(cmd_path, cmd_arg, 0);
-		else
-			i++;
+		i++;
 		free(cmd_path);
 	}
+	free_child(paths, cmd_arg, NULL);
 	exit_msg("Command not found: ", argv[cmd], 127);
 }

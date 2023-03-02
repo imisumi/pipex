@@ -6,7 +6,7 @@
 /*   By: imisumi <imisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 13:29:41 by imisumi           #+#    #+#             */
-/*   Updated: 2023/03/02 15:41:44 by imisumi          ###   ########.fr       */
+/*   Updated: 2023/03/02 16:13:56 by imisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	child_one(char **argv, char **envp, t_pip pip)
 	if (argv[2][0] == '\0' || argv[3][0] == '\0')
 	{
 		if (argv[2][0] == '\0')
-			exit_msg("Command 1 not found: ", argv[2], 127);
+			exit_msg("Command not found: ", argv[2], 127);
 		else
 			exit(0);
 	}
@@ -41,7 +41,7 @@ void	child_two(char **argv, char **envp, t_pip pip)
 	if (argv[2][0] == '\0' || argv[3][0] == '\0')
 	{
 		if (argv[3][0] == '\0')
-			exit_msg("Command 2 not found: ", argv[3], 127);
+			exit_msg("Command not found: ", argv[3], 127);
 		else
 			exit(0);
 	}

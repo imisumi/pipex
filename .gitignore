@@ -1,13 +1,13 @@
+# Removes evey file without a file extension
 *
 !*/
 !*.*
-
+# Excludes Makefile from the above
 !Makefile
 
 .DS_Store
-
 objs/
-
 *.txt
-
 *.a
+
+

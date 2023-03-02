@@ -6,7 +6,7 @@
 /*   By: imisumi <imisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 13:38:38 by imisumi           #+#    #+#             */
-/*   Updated: 2023/03/02 13:52:36 by imisumi          ###   ########.fr       */
+/*   Updated: 2023/03/02 15:53:42 by imisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,10 @@ void	free_double(char **array)
 
 void	free_child(char **paths, char **cmd_arg, char *cmd_path)
 {
-	free_double(paths);
-	free_double(cmd_arg);
+	if (paths)
+		free_double(paths);
+	if (cmd_arg)
+		free_double(cmd_arg);
 	if (cmd_path)
 		free(cmd_path);
 }
@@ -97,7 +99,7 @@ void	run_cmd(char **paths, char **argv, char **envp, int cmd)
 		if (cmd_path == NULL)
 		{
 			free_child(paths, cmd_arg, cmd_path);
-			exit_msg("Malloc in ft_strjoin has failed", NULL, 1);
+			exit_msg("Command not found: ", NULL, 127);
 		}
 		if (access(cmd_path, F_OK) == 0)
 			execve(cmd_path, cmd_arg, 0);

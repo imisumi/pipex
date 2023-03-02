@@ -6,7 +6,7 @@
 /*   By: imisumi <imisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 13:29:41 by imisumi           #+#    #+#             */
-/*   Updated: 2023/03/02 14:26:16 by imisumi          ###   ########.fr       */
+/*   Updated: 2023/03/02 15:41:44 by imisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@ void	child_one(char **argv, char **envp, t_pip pip)
 	pip.in = open(argv[1], O_RDONLY);
 	if (pip.in == -1)
 		exit_error(argv[1], 1);
+	if (argv[2][0] == '\0' || argv[3][0] == '\0')
+	{
+		if (argv[2][0] == '\0')
+			exit_msg("Command 1 not found: ", argv[2], 127);
+		else
+			exit(0);
+	}
 	dup2(pip.in, STDIN);
 	close(pip.in);
 	close(pip.end[0]);
@@ -30,7 +37,14 @@ void	child_two(char **argv, char **envp, t_pip pip)
 	if (pip.out == -1)
 		exit_error(argv[4], 1);
 	if (access(argv[1], F_OK | R_OK) != 0)
-		exit(0);
+		exit(1);
+	if (argv[2][0] == '\0' || argv[3][0] == '\0')
+	{
+		if (argv[3][0] == '\0')
+			exit_msg("Command 2 not found: ", argv[3], 127);
+		else
+			exit(0);
+	}
 	dup2(pip.end[0], STDIN);
 	close(pip.end[1]);
 	dup2(pip.out, STDOUT);

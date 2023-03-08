@@ -6,7 +6,7 @@
 /*   By: imisumi <imisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 13:29:41 by imisumi           #+#    #+#             */
-/*   Updated: 2023/03/08 15:13:53 by imisumi          ###   ########.fr       */
+/*   Updated: 2023/03/02 16:13:56 by imisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	child_one(char **argv, char **envp, t_pip pip)
 	run_cmd(pip.paths, argv, envp, 2);
 }
 
-void	parent_process(char **argv, char **envp, t_pip pip)
+void	child_two(char **argv, char **envp, t_pip pip)
 {
 	pip.out = open(argv[4], O_TRUNC | O_WRONLY | O_CREAT, 0644);
 	if (pip.out == -1)
@@ -50,6 +50,23 @@ void	parent_process(char **argv, char **envp, t_pip pip)
 	dup2(pip.out, STDOUT);
 	close(pip.out);
 	run_cmd(pip.paths, argv, envp, 3);
+}
+
+void	parent_process(t_pip pip)
+{
+	int	status;
+	int	code;
+
+	status = 0;
+	close(pip.end[0]);
+	close(pip.end[1]);
+	waitpid(pip.pid_1, NULL, 0);
+	waitpid(pip.pid_2, &status, 0);
+	if (status)
+	{
+		code = WEXITSTATUS(status);
+		exit(code);
+	}
 	free_double(pip.paths);
 	exit(0);
 }
@@ -64,6 +81,13 @@ void	pipex(char *argv[], char *envp[], t_pip pip)
 		exit_msg("Failed to create fork", NULL, 1);
 	else if (pip.pid_1 == 0)
 		child_one(argv, envp, pip);
-	waitpid(pip.pid_1, NULL, WNOHANG);
-	parent_process(argv, envp, pip);
+	pip.pid_2 = fork();
+	if (pip.pid_2 == -1)
+		exit_msg("Failed to create fork", NULL, 1);
+	else if (pip.pid_2 == 0)
+	{
+		waitpid(pip.pid_2, NULL, 0);
+		child_two(argv, envp, pip);
+	}
+	parent_process(pip);
 }

@@ -6,7 +6,7 @@
 /*   By: imisumi <imisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 13:29:41 by imisumi           #+#    #+#             */
-/*   Updated: 2023/03/08 15:13:53 by imisumi          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:01:25 by imisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	child_one(char **argv, char **envp, t_pip pip)
 	if (argv[2][0] == '\0' || argv[3][0] == '\0')
 	{
 		if (argv[2][0] == '\0')
-			exit_msg("Command not found: ", argv[2], 127);
+			exit_msg("Command not found:", NULL, 127);
 		else
 			exit(0);
 	}
@@ -28,7 +28,7 @@ void	child_one(char **argv, char **envp, t_pip pip)
 	close(pip.in);
 	close(pip.end[0]);
 	dup2(pip.end[1], STDOUT);
-	run_cmd(pip.paths, argv, envp, 2);
+	check_cmd(pip.paths, argv, envp, 2);
 }
 
 void	parent_process(char **argv, char **envp, t_pip pip)
@@ -38,10 +38,10 @@ void	parent_process(char **argv, char **envp, t_pip pip)
 		exit_error(argv[4], 1);
 	if (access(argv[1], F_OK | R_OK) != 0)
 		exit(1);
-	if (argv[2][0] == '\0' || argv[3][0] == '\0')
+	if (argv[3][0] == '\0')
 	{
 		if (argv[3][0] == '\0')
-			exit_msg("Command not found: ", argv[3], 127);
+			exit_msg("Command not found:", NULL, 127);
 		else
 			exit(0);
 	}
@@ -49,14 +49,14 @@ void	parent_process(char **argv, char **envp, t_pip pip)
 	close(pip.end[1]);
 	dup2(pip.out, STDOUT);
 	close(pip.out);
-	run_cmd(pip.paths, argv, envp, 3);
+	check_cmd(pip.paths, argv, envp, 3);
 	free_double(pip.paths);
 	exit(0);
 }
 
 void	pipex(char *argv[], char *envp[], t_pip pip)
 {
-	pip.paths = env_paths(envp, pip);
+	pip.paths = env_paths(envp);
 	if (pipe(pip.end) == -1)
 		exit_msg("Failed to create pipe", NULL, 1);
 	pip.pid_1 = fork();

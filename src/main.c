@@ -6,11 +6,36 @@
 /*   By: imisumi <imisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:54:34 by imisumi           #+#    #+#             */
-/*   Updated: 2023/03/08 14:19:58 by imisumi          ###   ########.fr       */
+/*   Updated: 2023/03/13 15:40:40 by imisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
+
+void	free_double(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+	{
+		if (array[i])
+			free(array[i]);
+		i++;
+	}
+	if (array)
+		free(array);
+}
+
+void	free_child(char **paths, char **cmd_arg, char *cmd_path)
+{
+	if (paths)
+		free_double(paths);
+	if (cmd_arg)
+		free_double(cmd_arg);
+	if (cmd_path)
+		free(cmd_path);
+}
 
 void	exit_msg(char *msg, char *msg2, int x)
 {

@@ -6,7 +6,7 @@
 #    By: imisumi <imisumi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/28 00:51:40 by ichiro            #+#    #+#              #
-#    Updated: 2023/03/01 15:49:30 by imisumi          ###   ########.fr        #
+#    Updated: 2023/03/13 14:57:18 by imisumi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRC_DIR = src
 
 INC := -I $(INCLUDE_DIR)
 
-SRCS =  main.c pipex.c utils.c 
+SRCS =  main.c pipex.c utils.c path.c
 
 OBJS = $(addprefix $(OBJS_DIR)/,$(SRCS:.c=.o))
 

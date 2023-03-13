@@ -6,7 +6,7 @@
 /*   By: imisumi <imisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 21:15:55 by ichiro            #+#    #+#             */
-/*   Updated: 2023/03/08 14:38:58 by imisumi          ###   ########.fr       */
+/*   Updated: 2023/03/13 15:47:35 by imisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,19 @@ typedef struct s_pip
 	char	**paths;
 }	t_pip;
 
+// MAIN
 void	free_double(char **array);
-char	**env_paths(char **envp, t_pip pip);
-void	run_cmd(char **paths, char **argv, char **envp, int cmd);
-// void	run_cmd(char **paths, char **argv, char **envp, int cmd, char **envp);
+void	free_child(char **paths, char **cmd_arg, char *cmd_path);
 void	exit_msg(char *msg, char *msg2, int x);
 void	exit_error(char *msg, int code);
+
+// PIPEX
 void	pipex(char *argv[], char *envp[], t_pip pip);
+
+// PATHS
+char	**env_paths(char **envp);
+
+// UTILS
+void	check_cmd(char **paths, char **argv, char **envp, int cmd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: imisumi <imisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 13:29:41 by imisumi           #+#    #+#             */
-/*   Updated: 2023/03/13 16:01:25 by imisumi          ###   ########.fr       */
+/*   Updated: 2023/03/14 15:07:05 by imisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,7 @@ void	parent_process(char **argv, char **envp, t_pip pip)
 	if (access(argv[1], F_OK | R_OK) != 0)
 		exit(1);
 	if (argv[3][0] == '\0')
-	{
-		if (argv[3][0] == '\0')
-			exit_msg("Command not found:", NULL, 127);
-		else
-			exit(0);
-	}
+		exit_msg("Command not found:", NULL, 127);
 	dup2(pip.end[0], STDIN);
 	close(pip.end[1]);
 	dup2(pip.out, STDOUT);
